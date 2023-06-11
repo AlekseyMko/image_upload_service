@@ -1,0 +1,119 @@
+openapi: 3.0.1
+info:
+  title: Image Handling Microservice
+  description: Image Handling Microservice
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /upload:
+    post:
+      description: Upload image
+      requestBody:
+        description: image file
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        413:
+          $ref: '#/components/responses/TooLargeRequest'
+
+  /images:
+    get:
+      description: Fetch image list
+      responses:
+        200:
+          description: Returns image list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: string
+        404:
+          $ref: '#/components/responses/NotFound'
+
+
+  /images/{name}:
+    get:
+      description: Fetch image
+      parameters:
+        - name: name
+          in: path
+          description: The name of the image to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns particular image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        404:
+          $ref: '#/components/responses/NotFound'
+
+
+components:
+  responses:
+
+    BadRequest:
+      description: BAD_REQUEST
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+
+    TooLargeRequest:
+      description: TOO_LARGE
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: NOT_FOUND
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+
+    EmptyResponse:
+      type: object
+      properties: {}
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+          required:
+            - message
