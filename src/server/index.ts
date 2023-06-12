@@ -1,6 +1,5 @@
 import './common/env';
-import Server from './common/server';
-import routes from './routes';
+import Server from './server';
 
-const port = parseInt(process.env.PORT ?? '3000');
-export default new Server().router(routes).listen(port);
+const port = parseInt(process.env.PORT ?? '8080');
+export default new Server().listen(port);

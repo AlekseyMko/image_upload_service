@@ -1,0 +1,13 @@
+# Ignore everything
+/[!.]*
+
+# Except the Cloud Function files we want to deploy
+!/src/**
+!/package.json
+!/build.ts
+!/skip.js
+!/tsconfig.json
+!/package-lock.json
+!/cloudbuild.yaml
+
+#!include:.gitignore

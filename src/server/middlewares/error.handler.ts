@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import multer from 'multer';
-import { GenericError } from '../models/errors';
+import { HttpError } from '../models/errors';
+import L from '../common/logger';
 
 export default function errorHandler(
-  err: GenericError | multer.MulterError,
+  err: HttpError | multer.MulterError,
   _req: Request,
   res: Response,
   _next: NextFunction
@@ -12,7 +13,8 @@ export default function errorHandler(
   if (err instanceof multer.MulterError) {
     res.status(400);
   } else {
-    res.status(err.status || err.httpErrorCode?.status || 500);
+    res.status(err.status || 500);
   }
+  L.error(error);
   res.json({ error });
 }

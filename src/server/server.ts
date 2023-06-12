@@ -1,18 +1,17 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import path from 'path';
 import http from 'http';
 import os from 'os';
-import L from './logger';
-import errorHandler from '../api/middlewares/error.handler';
 import * as OpenApiValidator from 'express-openapi-validator';
 import redoc from 'redoc-express';
-import { checkFileType, multerLimits, storageEngine } from '../api/middlewares/multer';
+import { checkFileType, multerLimits, storageEngine } from './middlewares/multer';
+import errorHandler from './middlewares/error.handler';
+import L from './common/logger';
+import router from './controllers/router';
 
 const app = express();
 
 export default class ExpressServer {
-  private routes: (app: Application) => void;
-
   constructor() {
     const apiSpec = path.join(__dirname, 'api.yml');
 
@@ -43,12 +42,10 @@ export default class ExpressServer {
         },
       })
     );
-  }
 
-  router(routes: (app: Application) => void): ExpressServer {
-    routes(app);
+    app.use('/api', router);
+
     app.use(errorHandler);
-    return this;
   }
 
   listen(port: number): http.Server {

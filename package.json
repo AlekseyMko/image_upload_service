@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "dist/server/index.js",
   "scripts": {
-    "start": "yarn build && node dist/server/index.js",
+    "start": "node dist/server/index.js",
     "build": "ts-node build.ts && tsc",
     "dev": "nodemon src/server/index.ts | pino-pretty",
     "dev:debug": "nodemon --exec \"node -r ts-node/register --inspect-brk\" src/server/index.ts | pino-pretty",
@@ -14,7 +14,8 @@
     "lint:fix": "eslint -c .eslintrc.js \"./src/**/*.{js,ts,tsx}\" --fix",
     "prettier": "prettier --write './{*,**/*}.{js,ts}'",
     "test": "jest '.*\\.unit\\.spec\\.ts$' --silent --detectOpenHandles --coverage --coverageDirectory=./coverage",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "deploy-gcp": "gcloud app deploy"
   },
   "lint-staged": {
     "*.{js,md,json}": [
@@ -22,22 +23,21 @@
     ],
     "*.ts": [
       "prettier --write",
-      "yarn lint"
+      "npm run lint"
     ]
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.11.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-async-handler": "^1.2.0",
     "express-openapi-validator": "^4.13.8",
-    "firebase-admin": "^11.9.0",
-    "firebase-functions": "^4.4.0",
-    "multer": "^1.4.5-lts.1",
+    "multer-cloud-storage": "^3.0.0",
     "pino": "^7.8.1",
     "redoc": "^2.0.0",
     "redoc-express": "^2.1.0"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",
     "@types/jest": "^29.5.2",
     "@types/multer": "^1.4.7",
