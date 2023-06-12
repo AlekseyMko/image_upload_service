@@ -1,0 +1,122 @@
+{
+  "info": {
+    "_postman_id": "107b37f6-5ac6-4217-aa31-55ce252011e7",
+    "name": "Image Handling Microservice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2122499"
+  },
+  "item": [
+    {
+      "name": "Upload Image",
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {}
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": []
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://aleksey-test-env.uc.r.appspot.com/api/upload",
+          "host": ["https://aleksey-test-env.uc.r.appspot.com"],
+          "path": ["api", "upload"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Image list",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "bearer $(gcloud auth print-identity-token)"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://aleksey-test-env.uc.r.appspot.com/api/images",
+          "host": ["https://aleksey-test-env.uc.r.appspot.com"],
+          "path": ["api", "images"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Image get",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://aleksey-test-env.uc.r.appspot.com/api/images/:name",
+          "host": ["https://aleksey-test-env.uc.r.appspot.com"],
+          "path": ["api", "images", ":name"],
+          "query": [
+            {
+              "key": "name",
+              "value": "image.jpg",
+              "disabled": true
+            }
+          ],
+          "variable": [
+            {
+              "key": "name",
+              "value": "imageJPG.jpeg"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Docs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://aleksey-test-env.uc.r.appspot.com/docs",
+          "host": ["https://aleksey-test-env.uc.r.appspot.com"],
+          "path": ["docs"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ]
+}
